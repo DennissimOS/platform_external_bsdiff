@@ -27,6 +27,9 @@
       # "bsdiff/...".
       '<(platform2_root)/../aosp/external',
     ],
+    'defines': [
+      '_FILE_OFFSET_BITS=64',
+    ],
   },
   'targets': [
     # bsdiff static library
@@ -50,7 +53,6 @@
         'bsdiff.cc',
         'bz2_compressor.cc',
         'compressor_buffer.cc',
-        'compressor_interface.cc',
         'diff_encoder.cc',
         'endsley_patch_writer.cc',
         'logging.cc',
@@ -76,6 +78,7 @@
         'libbsdiff',
       ],
       'sources': [
+        'bsdiff_arguments.cc',
         'bsdiff_main.cc',
       ],
     },
@@ -148,6 +151,8 @@
           'includes': ['../common-mk/common_test.gypi'],
           'sources': [
             'brotli_compressor_unittest.cc',
+            'bsdiff_arguments.cc',
+            'bsdiff_arguments_unittest.cc',
             'bsdiff_unittest.cc',
             'bspatch_unittest.cc',
             'diff_encoder_unittest.cc',
