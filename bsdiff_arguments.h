@@ -12,8 +12,6 @@
 #include "bsdiff/constants.h"
 #include "bsdiff/patch_writer_interface.h"
 
-using std::string;
-
 namespace bsdiff {
 
 // Class to store the patch writer options about format, type and quality.
@@ -35,6 +33,8 @@ class BsdiffArguments {
   // Getter functions.
   BsdiffFormat format() const { return format_; }
 
+  int min_length() const { return min_length_; }
+
   CompressorType compressor_type() const { return compressor_type_; }
 
   int compression_quality() const { return compression_quality_; }
@@ -44,13 +44,16 @@ class BsdiffArguments {
   bool ParseCommandLine(int argc, char** argv);
 
   // Parse the compression type from string.
-  static bool ParseCompressorType(const string& str, CompressorType* type);
+  static bool ParseCompressorType(const std::string& str, CompressorType* type);
+
+  // Parse the minimum length parameter from string.
+  static bool ParseMinLength(const std::string& str, size_t* len);
 
   // Parse the bsdiff format from string.
-  static bool ParseBsdiffFormat(const string& str, BsdiffFormat* format);
+  static bool ParseBsdiffFormat(const std::string& str, BsdiffFormat* format);
 
   // Parse the compression quality (for brotli) from string.
-  static bool ParseQuality(const string& str, int* quality);
+  static bool ParseQuality(const std::string& str, int* quality);
 
  private:
   // Current format supported are the legacy "BSDIFF40" or "BSDF2".
@@ -62,8 +65,10 @@ class BsdiffArguments {
   // The quality of compression, only valid when using brotli as the
   // compression algorithm.
   int compression_quality_;
+
+  size_t min_length_{0};
 };
 
 }  // namespace bsdiff
 
-#endif  //_BSDIFF_BSDIFF_ARGUMENTS_H_
+#endif  // _BSDIFF_BSDIFF_ARGUMENTS_H_
